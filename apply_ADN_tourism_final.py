@@ -56,13 +56,18 @@ with col3:
 @st.cache(allow_output_mutation=True)
 def get_my_data():
 # chargement des donnees
-    df=pd.read_csv(r"C:\Users\rachi\Desktop\Projet4\ADN_tourisme\df_400POI_clean.csv",error_bad_lines=False, engine="python")
+    with zipfile.ZipFile(r"C:\Users\rachi\Desktop\Projet4\ADN_tourisme\df_400POI_clean.zipx","r") as z:
+   # open the csv file in the dataset
+        with z.open("df_400POI_clean.csv") as f:
+      # read the dataset
+            df = pd.read_csv(f)
     df.drop(df.iloc[:, 0:1], inplace=True, axis=1)
     df['description_fr']=df['description_fr'].fillna(df['description_fr_'])
     df= df.drop(df.iloc[:, [5,6,8]], axis=1)
     df=df.fillna('Information non renseignée')
     df=df.replace(['valeur manquante'], 'Information non renseignée')
     return df
+
 
    
 
